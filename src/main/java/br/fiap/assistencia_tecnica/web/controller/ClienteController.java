@@ -1,0 +1,36 @@
+package br.fiap.assistencia_tecnica.web.controller;
+
+import br.fiap.assistencia_tecnica.domain.Cliente;
+import br.fiap.assistencia_tecnica.service.ClienteService;
+import br.fiap.assistencia_tecnica.web.dto.ClienteDTO;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+// recebe requisições do cliente navegador e envia para a classe service
+@RestController // indica que o controller movimenta JSON e nao HTML
+@RequestMapping("/cliente")
+public class ClienteController {
+    private final ClienteService service;
+
+    public ClienteController(ClienteService service) {
+        this.service = service;
+    }
+
+    @PostMapping
+    // @RequestBody serve para "quebrar" o JSON em um objeto do tipo indicado no parâmetro (no caso ClienteDTO)
+    public Cliente cadastrar (@RequestBody ClienteDTO clienteDTO) {
+        return service.cadastrar(clienteDTO);
+    }
+
+    @GetMapping
+    public List<Cliente> listar() {
+        return service.listar();
+    }
+
+    @GetMapping("/{id}")
+    public Cliente buscarPorId(@PathVariable Long id) {
+        return service.buscarPorId(id);
+    }
+
+}
